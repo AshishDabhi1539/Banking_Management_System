@@ -11,6 +11,10 @@
 <body class="bg-light">
 <div class="container py-4">
   <h3 class="mb-3">Account Statement</h3>
+  <form class="row g-2 mb-3" method="get" action="${pageContext.request.contextPath}/customer/statements">
+    <div class="col-md-3"><input class="form-control" name="accountId" placeholder="Account ID" required></div>
+    <div class="col-md-2"><button class="btn btn-primary w-100" type="submit">Load</button></div>
+  </form>
   <div class="card p-3">
     <div class="table-responsive">
       <table class="table table-striped table-sm">
@@ -24,6 +28,9 @@
           </tr>
         </thead>
         <tbody>
+          <c:if test="${empty transactions}">
+            <tr><td colspan="5" class="text-center text-muted">No data loaded. Enter an Account ID above.</td></tr>
+          </c:if>
           <c:forEach var="t" items="${transactions}">
             <tr>
               <td>${t.transactionId}</td>

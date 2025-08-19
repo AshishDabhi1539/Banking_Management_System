@@ -18,10 +18,33 @@
       <a class="btn btn-primary w-100" href="${pageContext.request.contextPath}/accounts.jsp">My Accounts</a>
     </div>
     <div class="col-md-4">
+      <a class="btn btn-primary w-100" href="${pageContext.request.contextPath}/customer/statements">Statements</a>
+    </div>
+    <div class="col-md-4">
       <a class="btn btn-primary w-100" href="${pageContext.request.contextPath}/loan_status.jsp">My Loans</a>
     </div>
     <div class="col-md-4">
+      <a class="btn btn-outline-primary w-100" href="${pageContext.request.contextPath}/apply_loan.jsp">Apply Loan</a>
+    </div>
+    <div class="col-md-4">
+      <a class="btn btn-outline-primary w-100" href="${pageContext.request.contextPath}/repay_loan.jsp">Repay Loan</a>
+    </div>
+    <div class="col-md-4">
       <a class="btn btn-primary w-100" href="${pageContext.request.contextPath}/complaints.jsp">My Complaints</a>
+    </div>
+  </div>
+  <div class="row g-3 mt-1">
+    <div class="col-md-3">
+      <a class="btn btn-outline-secondary w-100" href="${pageContext.request.contextPath}/open_account.jsp">Open Account</a>
+    </div>
+    <div class="col-md-3">
+      <a class="btn btn-outline-secondary w-100" href="${pageContext.request.contextPath}/deposit.jsp">Deposit</a>
+    </div>
+    <div class="col-md-3">
+      <a class="btn btn-outline-secondary w-100" href="${pageContext.request.contextPath}/withdraw.jsp">Withdraw</a>
+    </div>
+    <div class="col-md-3">
+      <a class="btn btn-outline-secondary w-100" href="${pageContext.request.contextPath}/transfer.jsp">Transfer</a>
     </div>
   </div>
 </div>

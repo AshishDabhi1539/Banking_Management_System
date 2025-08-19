@@ -54,6 +54,7 @@
     <a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/loans">Loan Approvals</a>
     <a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/complaints">Complaints</a>
     <a class="btn btn-secondary" href="${pageContext.request.contextPath}/admin/logs">Activity Logs</a>
+    <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/admin/reports">Reports</a>
   </div>
 </div>
 </body>

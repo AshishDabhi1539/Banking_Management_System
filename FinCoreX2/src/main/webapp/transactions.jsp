@@ -11,6 +11,7 @@
 <body class="bg-light">
 <div class="container py-4">
   <h3 class="mb-3">All Transactions</h3>
+  <div class="mb-2 text-muted">Showing latest transactions across all accounts.</div>
   <div class="card p-3">
     <div class="table-responsive">
       <table class="table table-striped table-sm">
