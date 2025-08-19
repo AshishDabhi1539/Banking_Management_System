@@ -58,6 +58,16 @@ public class AccountDAO {
         }
     }
 
+    public void updateDetails(int accountId, String accountNumber, String accountType) throws SQLException {
+        String sql = "UPDATE accounts SET account_number=?, account_type=? WHERE account_id=?";
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, accountNumber);
+            ps.setString(2, accountType);
+            ps.setInt(3, accountId);
+            ps.executeUpdate();
+        }
+    }
+
     public Account findById(int id) throws SQLException {
         String sql = "SELECT * FROM accounts WHERE account_id = ?";
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
