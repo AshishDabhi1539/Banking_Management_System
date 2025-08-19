@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +11,8 @@
 <body class="bg-light">
 <div class="container py-4">
   <h3 class="mb-3">Loan Approvals</h3>
+  <c:if test="${param.approved == '1'}"><div class="alert alert-success">Loan approved.</div></c:if>
+  <c:if test="${param.rejected == '1'}"><div class="alert alert-warning">Loan rejected.</div></c:if>
   <form class="row g-2" method="post" action="${pageContext.request.contextPath}/loan/approve">
     <div class="col-md-4"><input class="form-control" name="loanId" placeholder="Loan ID" required></div>
     <div class="col-md-2"><button class="btn btn-success w-100" type="submit">Approve</button></div>

@@ -11,6 +11,15 @@
 <body class="bg-light">
 <div class="container py-4">
   <h3 class="mb-3">Manage Customers</h3>
+  <c:if test="${param.created == '1'}">
+    <div class="alert alert-success">Customer created successfully.</div>
+  </c:if>
+  <c:if test="${param.updated == '1'}">
+    <div class="alert alert-success">Customer updated successfully.</div>
+  </c:if>
+  <c:if test="${param.deleted == '1'}">
+    <div class="alert alert-warning">Customer deleted.</div>
+  </c:if>
   <div class="card p-3 mb-3">
     <form class="row g-2" method="post" action="${pageContext.request.contextPath}/admin/customer/create">
       <div class="col-md-2"><input class="form-control" name="userId" placeholder="User ID" required></div>
@@ -41,14 +50,20 @@
         <c:forEach var="c" items="${customers}">
           <tr>
             <td>${c.customerId}</td>
-            <td>${c.fullName}</td>
-            <td>${c.email}</td>
-            <td>${c.phone}</td>
-            <td>${c.address}</td>
-            <td>${c.aadharNo}</td>
-            <td>${c.panNo}</td>
             <td>
-              <form class="d-inline" method="post" action="${pageContext.request.contextPath}/admin/customer/delete">
+              <form class="row g-1" method="post" action="${pageContext.request.contextPath}/admin/customer/update">
+                <input type="hidden" name="customerId" value="${c.customerId}">
+                <div class="col-12"><input class="form-control form-control-sm" name="fullName" value="${c.fullName}"></div>
+            </td>
+            <td><input class="form-control form-control-sm" name="email" value="${c.email}"></td>
+            <td><input class="form-control form-control-sm" name="phone" value="${c.phone}"></td>
+            <td><input class="form-control form-control-sm" name="address" value="${c.address}"></td>
+            <td><input class="form-control form-control-sm" name="aadhar" value="${c.aadharNo}"></td>
+            <td><input class="form-control form-control-sm" name="pan" value="${c.panNo}"></td>
+            <td>
+              <button class="btn btn-sm btn-primary" type="submit">Save</button>
+              </form>
+              <form class="d-inline ms-1" method="post" action="${pageContext.request.contextPath}/admin/customer/delete">
                 <input type="hidden" name="customerId" value="${c.customerId}">
                 <button class="btn btn-sm btn-danger" type="submit">Delete</button>
               </form>

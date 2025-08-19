@@ -11,6 +11,9 @@
 <body class="bg-light">
 <div class="container py-4">
   <h3 class="mb-3">Manage Accounts</h3>
+  <c:if test="${param.updated == '1'}">
+    <div class="alert alert-success">Account status updated.</div>
+  </c:if>
   <div class="table-responsive mb-3">
     <table class="table table-striped table-hover align-middle">
       <thead>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +11,9 @@
 <body class="bg-light">
 <div class="container py-4">
   <h3 class="mb-3">Apply for a Loan</h3>
+  <c:if test="${param.applied == '1'}">
+    <div class="alert alert-success">Loan application submitted.</div>
+  </c:if>
   <form class="row g-2" method="post" action="${pageContext.request.contextPath}/loan/apply">
     <div class="col-md-2"><input class="form-control" name="customerId" placeholder="Customer ID" required></div>
     <div class="col-md-2">

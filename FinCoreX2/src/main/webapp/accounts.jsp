@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +11,8 @@
 <body class="bg-light">
 <div class="container py-4">
   <h3 class="mb-3">Accounts</h3>
+  <c:if test="${param.opened == '1'}"><div class="alert alert-success">Account opened successfully.</div></c:if>
+  <c:if test="${param.success == '1'}"><div class="alert alert-success">Transaction completed successfully.</div></c:if>
   <form class="row g-2 mb-4" method="post" action="${pageContext.request.contextPath}/customer/open-account">
     <div class="col-md-3">
       <input class="form-control" name="customerId" placeholder="Customer ID" required>

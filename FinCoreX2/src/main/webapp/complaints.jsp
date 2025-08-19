@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +11,12 @@
 <body class="bg-light">
 <div class="container py-4">
   <h3 class="mb-3">Complaints</h3>
+  <c:if test="${param.created == '1'}">
+    <div class="alert alert-success">Complaint created successfully.</div>
+  </c:if>
+  <c:if test="${param.updated == '1'}">
+    <div class="alert alert-success">Complaint updated successfully.</div>
+  </c:if>
   <div class="card p-3 mb-3">
     <h5>Raise Complaint</h5>
     <form class="row g-2" method="post" action="${pageContext.request.contextPath}/complaint/create">
