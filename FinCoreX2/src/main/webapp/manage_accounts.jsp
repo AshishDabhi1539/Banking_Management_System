@@ -12,7 +12,9 @@
 <div class="container py-4">
   <h3 class="mb-3">Manage Accounts</h3>
   <c:if test="${param.updated == '1'}">
-    <div class="alert alert-success">Account status updated.</div>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">Account updated.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
   </c:if>
   <div class="table-responsive mb-3">
     <table class="table table-striped table-hover align-middle">
@@ -35,7 +37,7 @@
             <td>
               <form class="row g-1" method="post" action="${pageContext.request.contextPath}/admin/account/update">
                 <input type="hidden" name="accountId" value="${a.accountId}">
-                <div class="col-12"><input class="form-control form-control-sm" name="accountNumber" value="${a.accountNumber}"></div>
+                <div class="col-12"><input class="form-control form-control-sm" name="accountNumber" value="${a.accountNumber}" minlength="6" maxlength="20"></div>
             </td>
             <td>
                 <select class="form-select form-select-sm" name="accountType">
