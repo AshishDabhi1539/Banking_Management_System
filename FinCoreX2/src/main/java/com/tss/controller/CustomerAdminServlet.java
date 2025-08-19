@@ -16,6 +16,7 @@ import com.tss.util.Constants;
 
 @WebServlet(urlPatterns = { "/admin/customer/create", "/admin/customer/update", "/admin/customer/delete" })
 public class CustomerAdminServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
     private final CustomerService customerService = new CustomerService();
 
     @Override

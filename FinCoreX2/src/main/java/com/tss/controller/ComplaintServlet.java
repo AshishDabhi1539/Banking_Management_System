@@ -15,6 +15,7 @@ import com.tss.util.Constants;
 
 @WebServlet(urlPatterns = { "/complaint/create", "/complaint/update-status" })
 public class ComplaintServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
     private final ComplaintService complaintService = new ComplaintService();
 
     @Override

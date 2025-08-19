@@ -18,6 +18,7 @@ import com.tss.util.Constants;
     "/loan/apply", "/loan/approve", "/loan/reject", "/loan/repay"
 })
 public class LoanServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
     private final LoanService loanService = new LoanService();
 
     @Override

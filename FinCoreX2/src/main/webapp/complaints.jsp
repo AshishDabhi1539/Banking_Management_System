@@ -32,8 +32,8 @@
       </div>
       <div class="col-md-2"><button class="btn btn-success w-100" type="submit">Update</button></div>
     </form>
-  </div>
-  <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/customer/dashboard">Back</a>
+  </div>  
+  <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/admin/dashboard">Back</a>
 </div>
 </body>
 </html>

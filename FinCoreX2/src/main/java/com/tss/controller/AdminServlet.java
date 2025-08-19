@@ -15,7 +15,8 @@ import com.tss.service.AdminService;
     "/admin/dashboard", "/admin/customers", "/admin/accounts", "/admin/transactions", "/admin/loans", "/admin/complaints", "/admin/logs"
 })
 public class AdminServlet extends HttpServlet {
-    private final AdminService adminService = new AdminService();
+	private static final long serialVersionUID = 1L;
+	private final AdminService adminService = new AdminService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

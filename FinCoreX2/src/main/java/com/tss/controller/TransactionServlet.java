@@ -15,6 +15,7 @@ import com.tss.model.Transaction;
 
 @WebServlet(urlPatterns = { "/transactions/account" })
 public class TransactionServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
     private final TransactionDAO transactionDAO = new TransactionDAO();
 
     @Override

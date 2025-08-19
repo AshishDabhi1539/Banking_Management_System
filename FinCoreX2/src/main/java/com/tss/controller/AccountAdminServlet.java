@@ -15,7 +15,8 @@ import com.tss.util.Constants;
 
 @WebServlet(urlPatterns = { "/admin/account/status" })
 public class AccountAdminServlet extends HttpServlet {
-    private final AccountDAO accountDAO = new AccountDAO();
+	private static final long serialVersionUID = 1L;
+	private final AccountDAO accountDAO = new AccountDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

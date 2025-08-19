@@ -20,6 +20,7 @@ import com.tss.util.Constants;
     "/login", "/logout", "/register", "/change-password"
 })
 public class AuthServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
     private final AuthService authService = new AuthService();
 
     @Override
@@ -81,7 +82,8 @@ public class AuthServlet extends HttpServlet {
         String address = req.getParameter("address");
         String aadhar = req.getParameter("aadhar");
         String pan = req.getParameter("pan");
-        Customer c = authService.registerCustomer(username, password, fullName, email, phone, address, aadhar, pan);
+        @SuppressWarnings("unused")
+		Customer c = authService.registerCustomer(username, password, fullName, email, phone, address, aadhar, pan);
         resp.sendRedirect(req.getContextPath() + "/login.jsp?registered=1");
     }
 

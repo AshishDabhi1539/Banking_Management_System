@@ -1,7 +1,9 @@
 package com.tss.exception;
 
 public class ComplaintNotFoundException extends RuntimeException {
-    public ComplaintNotFoundException(String message) {
+	private static final long serialVersionUID = 1L;
+
+	public ComplaintNotFoundException(String message) {
         super(message);
     }
 }

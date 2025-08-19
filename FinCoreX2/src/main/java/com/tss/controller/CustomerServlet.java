@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.tss.model.Customer;
 import com.tss.model.User;
 import com.tss.service.AccountService;
 import com.tss.service.AdminService;
@@ -21,9 +20,11 @@ import com.tss.util.Constants;
     "/customer/dashboard", "/customer/deposit", "/customer/withdraw", "/customer/transfer", "/customer/open-account"
 })
 public class CustomerServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
     private final AccountService accountService = new AccountService();
     private final AdminService adminService = new AdminService();
-    private final AuthService authService = new AuthService();
+    @SuppressWarnings("unused")
+	private final AuthService authService = new AuthService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
