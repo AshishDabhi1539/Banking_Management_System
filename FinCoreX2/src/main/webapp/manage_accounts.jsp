@@ -32,13 +32,24 @@
           <tr>
             <td>${a.accountId}</td>
             <td>${a.customerId}</td>
-            <td>${a.accountNumber}</td>
-            <td>${a.accountType}</td>
+            <td>
+              <form class="row g-1" method="post" action="${pageContext.request.contextPath}/admin/account/update">
+                <input type="hidden" name="accountId" value="${a.accountId}">
+                <div class="col-12"><input class="form-control form-control-sm" name="accountNumber" value="${a.accountNumber}"></div>
+            </td>
+            <td>
+                <select class="form-select form-select-sm" name="accountType">
+                  <option value="SAVINGS" ${a.accountType == 'SAVINGS' ? 'selected' : ''}>SAVINGS</option>
+                  <option value="CURRENT" ${a.accountType == 'CURRENT' ? 'selected' : ''}>CURRENT</option>
+                </select>
+            </td>
             <td>${a.balance}</td>
             <td>
               <span class="badge text-bg-secondary">${a.status}</span>
             </td>
             <td>
+              <button class="btn btn-sm btn-primary" type="submit">Save</button>
+              </form>
               <form class="d-inline" method="post" action="${pageContext.request.contextPath}/admin/account/status">
                 <input type="hidden" name="accountId" value="${a.accountId}">
                 <input type="hidden" name="status" value="ACTIVE">
