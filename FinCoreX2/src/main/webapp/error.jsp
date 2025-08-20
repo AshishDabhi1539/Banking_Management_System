@@ -1,24 +1,34 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Error - FinCoreX</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - FinCoreX</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">
 </head>
-<body class="bg-light d-flex align-items-center" style="min-height: 100vh;">
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="alert alert-danger p-4">
-        <h4 class="alert-heading">Something went wrong</h4>
-        <p>${errors}</p>
-        <hr>
-        <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/login.jsp">Go Home</a>
-      </div>
-    </div>
-  </div>
-  </div>
+<body class="d-flex flex-column min-vh-100">
+    <%@ include file="includes/header.jsp" %>
+    <main class="flex-grow-1 d-flex align-items-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card shadow-sm text-bg-danger">
+                        <div class="card-body p-4">
+                            <h4 class="card-title"><i class="fas fa-exclamation-triangle me-2"></i>Something Went Wrong</h4>
+                            <p class="card-text">${errors}</p>
+                            <hr>
+                            <a class="btn btn-outline-light" href="${pageContext.request.contextPath}/login.jsp"><i class="fas fa-home me-2"></i>Go Home</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <%@ include file="includes/footer.jsp" %>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/scripts.js"></script>
 </body>
 </html>

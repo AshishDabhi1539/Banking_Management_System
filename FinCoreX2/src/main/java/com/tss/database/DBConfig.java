@@ -5,7 +5,7 @@ public final class DBConfig {
 	} // Prevent instantiation
 
 	public static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-	public static final String URL = "jdbc:mysql://localhost:3306/banking_system?useSSL=false&serverTimezone=UTC";
+	public static final String URL = "jdbc:mysql://localhost:3306/banking_system";
 	public static final String USER = "root";
 	public static final String PASS = "Temp@123456";
 }
