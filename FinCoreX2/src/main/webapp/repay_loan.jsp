@@ -28,10 +28,15 @@
                         <h5 class="mb-0"><i class="fas fa-money-check-alt me-2"></i>Loan Repayment</h5>
                     </div>
                     <div class="card-body">
-                        <form class="row g-3" method="post" action="${pageContext.request.contextPath}/customer/loan/repay">
+                        <form class="row g-3" method="post" action="${pageContext.request.contextPath}/customer/repay_loan">
                             <div class="col-md-4">
                                 <label class="form-label">Loan ID</label>
-                                <input class="form-control" name="loanId" placeholder="Enter Loan ID" required pattern="^[0-9]+$" title="Numbers only">
+                                <select class="form-select" name="loanId" required>
+                                    <option value="" disabled selected>Select Loan</option>
+                                    <c:forEach var="loan" items="${loans}">
+                                        <option value="${loan.loanId}">Loan #${loan.loanId} - ${loan.loanType} (₹${loan.amount})</option>
+                                    </c:forEach>
+                                </select>
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">Amount</label>

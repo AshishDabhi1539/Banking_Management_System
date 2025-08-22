@@ -17,7 +17,7 @@ public class AccountDAO {
         String sql = "INSERT INTO accounts (customer_id, account_number, account_type, balance, status) VALUES (?,?,?,?,?)";
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, a.getCustomerId());
-            ps.setString(2, a.getAccountNumber());
+            ps.setString(2, a.getAccountNumber()); // Use generated accountNumber
             ps.setString(3, a.getAccountType());
             ps.setBigDecimal(4, a.getBalance() == null ? BigDecimal.ZERO : a.getBalance());
             ps.setString(5, a.getStatus());
@@ -27,8 +27,8 @@ public class AccountDAO {
                     return rs.getInt(1);
                 }
             }
+            throw new SQLException("Failed to retrieve generated account ID");
         }
-        return 0;
     }
 
     public void updateStatus(int accountId, String status) throws SQLException {
@@ -36,7 +36,7 @@ public class AccountDAO {
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, status);
             ps.setInt(2, accountId);
-            ps.executeUpdate();
+            if (ps.executeUpdate() == 0) throw new SQLException("No account updated");
         }
     }
 
@@ -45,7 +45,7 @@ public class AccountDAO {
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setBigDecimal(1, newBalance);
             ps.setInt(2, accountId);
-            ps.executeUpdate();
+            if (ps.executeUpdate() == 0) throw new SQLException("No account updated");
         }
     }
 
@@ -54,7 +54,7 @@ public class AccountDAO {
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setBigDecimal(1, newBalance);
             ps.setInt(2, accountId);
-            ps.executeUpdate();
+            if (ps.executeUpdate() == 0) throw new SQLException("No account updated");
         }
     }
 
@@ -64,7 +64,7 @@ public class AccountDAO {
             ps.setString(1, accountNumber);
             ps.setString(2, accountType);
             ps.setInt(3, accountId);
-            ps.executeUpdate();
+            if (ps.executeUpdate() == 0) throw new SQLException("No account updated");
         }
     }
 
@@ -76,9 +76,9 @@ public class AccountDAO {
                 if (rs.next()) {
                     return mapRow(rs);
                 }
+                throw new SQLException("Account not found");
             }
         }
-        return null;
     }
 
     public Account findByIdForUpdate(Connection conn, int id) throws SQLException {
@@ -89,9 +89,9 @@ public class AccountDAO {
                 if (rs.next()) {
                     return mapRow(rs);
                 }
+                throw new SQLException("Account not found");
             }
         }
-        return null;
     }
 
     public Account findByAccountNumber(String accountNumber) throws SQLException {
@@ -102,9 +102,9 @@ public class AccountDAO {
                 if (rs.next()) {
                     return mapRow(rs);
                 }
+                throw new SQLException("Account not found");
             }
         }
-        return null;
     }
 
     public Account findByAccountNumberForUpdate(Connection conn, String accountNumber) throws SQLException {
@@ -115,9 +115,9 @@ public class AccountDAO {
                 if (rs.next()) {
                     return mapRow(rs);
                 }
+                throw new SQLException("Account not found");
             }
         }
-        return null;
     }
 
     public List<Account> findByCustomerId(int customerId) throws SQLException {
@@ -125,11 +125,13 @@ public class AccountDAO {
         List<Account> list = new ArrayList<>();
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, customerId);
+            System.out.println("AccountDAO: Executing query for customerId: " + customerId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     list.add(mapRow(rs));
                 }
             }
+            System.out.println("AccountDAO: Found " + list.size() + " accounts");
         }
         return list;
     }
@@ -157,4 +159,3 @@ public class AccountDAO {
         return a;
     }
 }
-

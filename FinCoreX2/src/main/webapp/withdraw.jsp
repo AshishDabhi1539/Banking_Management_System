@@ -1,21 +1,54 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Withdraw - FinCoreX</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdraw - FinCoreX</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">
 </head>
-<body class="bg-light">
-<div class="container py-4">
-  <h3 class="mb-3">Withdraw</h3>
-  <form class="row g-2" method="post" action="${pageContext.request.contextPath}/customer/withdraw">
-    <div class="col-md-4"><input class="form-control" name="accountId" placeholder="Account ID" required></div>
-    <div class="col-md-4"><input class="form-control" name="amount" placeholder="Amount" required></div>
-    <div class="col-md-4"><button class="btn btn-warning w-100" type="submit">Withdraw</button></div>
-  </form>
-  <a class="btn btn-outline-secondary mt-3" href="${pageContext.request.contextPath}/accounts.jsp">Back to Accounts</a>
-</div>
+<body class="d-flex flex-column min-vh-100">
+    <%@ include file="includes/header.jsp" %>
+    <div class="d-flex flex-grow-1">
+        <%@ include file="includes/sidebar.jsp" %>
+        <main class="flex-grow-1 p-4">
+            <div class="container-fluid">
+                <h3 class="mb-4 text-primary"><i class="fas fa-money-bill-alt me-2"></i>Withdraw</h3>
+                <c:if test="${param.withdrawn == '1'}">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="fas fa-check-circle me-2"></i>Withdrawal successful.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </c:if>
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-arrow-down me-2"></i>Withdraw Funds</h5>
+                    </div>
+                    <div class="card-body">
+                        <form class="row g-3" method="post" action="${pageContext.request.contextPath}/customer/withdraw">
+                            <div class="col-md-4">
+                                <label class="form-label">Account ID</label>
+                                <input class="form-control" name="accountId" placeholder="Enter Account ID" required pattern="^[0-9]+$" title="Numbers only">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Amount</label>
+                                <input class="form-control" type="number" step="0.01" min="0.01" name="amount" placeholder="Enter Amount" required>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-end">
+                                <button class="btn btn-warning w-100" type="submit"><i class="fas fa-arrow-down me-2"></i>Withdraw</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <a class="btn btn-outline-secondary mt-4" href="${pageContext.request.contextPath}/accounts.jsp"><i class="fas fa-arrow-left me-2"></i>Back to Accounts</a>
+            </div>
+        </main>
+    </div>
+    <%@ include file="includes/footer.jsp" %>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/scripts.js"></script>
 </body>
 </html>

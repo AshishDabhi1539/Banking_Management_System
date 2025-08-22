@@ -1,87 +1,64 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Reports - FinCoreX</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - FinCoreX</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">
 </head>
-<body class="bg-light">
-<div class="container py-4">
-  <h3 class="mb-3">Reports</h3>
-  <div class="row g-3">
-    <div class="col-12">
-      <div class="card p-3">
-        <h5>Customers</h5>
-        <div class="table-responsive">
-          <table class="table table-sm table-striped">
-            <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th></tr></thead>
-            <tbody>
-              <c:forEach var="c" items="${customers}">
-                <tr>
-                  <td>${c.customerId}</td><td>${c.fullName}</td><td>${c.email}</td><td>${c.phone}</td>
-                </tr>
-              </c:forEach>
-            </tbody>
-          </table>
-        </div>
-      </div>
+<body>
+    <%@ include file="includes/header.jsp" %>
+    <div class="d-flex">
+        <%@ include file="includes/admin_sidebar.jsp" %>
+        <main class="flex-grow-1 p-4">
+            <div class="container-fluid">
+                <h3 class="mb-4 text-primary"><i class="fas fa-chart-bar me-2"></i>Reports</h3>
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-file-alt me-2"></i>Generate Report</h5>
+                    </div>
+                    <div class="card-body">
+                        <form class="row g-3" method="post" action="${pageContext.request.contextPath}/admin/reports">
+                            <div class="col-md-4">
+                                <label class="form-label">Report Type</label>
+                                <select class="form-select" name="reportType">
+                                    <option value="DAILY">Daily</option>
+                                    <option value="MONTHLY">Monthly</option>
+                                    <option value="ANNUAL">Annual</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Date</label>
+                                <input class="form-control" type="date" name="date" required>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-end">
+                                <button class="btn btn-primary w-100" type="submit"><i class="fas fa-download me-2"></i>Generate</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <c:if test="${not empty report}">
+                    <div class="card shadow-sm mt-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Generated Report</h5>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Total Transactions:</strong> ${report.totalTransactions}</p>
+                            <p><strong>Total Amount:</strong> ${report.totalAmount}</p>
+                            <p><strong>Date Range:</strong> ${report.dateRange}</p>
+                        </div>
+                    </div>
+                </c:if>
+                <a class="btn btn-outline-secondary mt-4" href="${pageContext.request.contextPath}/admin/dashboard"><i class="fas fa-arrow-left me-2"></i>Back to Dashboard</a>
+            </div>
+        </main>
     </div>
-    <div class="col-12">
-      <div class="card p-3">
-        <h5>Accounts</h5>
-        <div class="table-responsive">
-          <table class="table table-sm table-striped">
-            <thead><tr><th>ID</th><th>Customer</th><th>Number</th><th>Type</th><th>Balance</th><th>Status</th></tr></thead>
-            <tbody>
-              <c:forEach var="a" items="${accounts}">
-                <tr>
-                  <td>${a.accountId}</td><td>${a.customerId}</td><td>${a.accountNumber}</td><td>${a.accountType}</td><td>${a.balance}</td><td>${a.status}</td>
-                </tr>
-              </c:forEach>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    <div class="col-12">
-      <div class="card p-3">
-        <h5>Loans</h5>
-        <div class="table-responsive">
-          <table class="table table-sm table-striped">
-            <thead><tr><th>ID</th><th>Customer</th><th>Type</th><th>Amount</th><th>Interest</th><th>Tenure</th><th>Status</th></tr></thead>
-            <tbody>
-              <c:forEach var="l" items="${loans}">
-                <tr>
-                  <td>${l.loanId}</td><td>${l.customerId}</td><td>${l.loanType}</td><td>${l.amount}</td><td>${l.interestRate}</td><td>${l.tenureMonths}</td><td>${l.status}</td>
-                </tr>
-              </c:forEach>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    <div class="col-12">
-      <div class="card p-3">
-        <h5>Complaints</h5>
-        <div class="table-responsive">
-          <table class="table table-sm table-striped">
-            <thead><tr><th>ID</th><th>Customer</th><th>Subject</th><th>Status</th></tr></thead>
-            <tbody>
-              <c:forEach var="p" items="${complaints}">
-                <tr>
-                  <td>${p.complaintId}</td><td>${p.customerId}</td><td>${p.subject}</td><td>${p.status}</td>
-                </tr>
-              </c:forEach>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-  <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/admin/dashboard">Back</a>
-</div>
+    <%@ include file="includes/footer.jsp" %>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/scripts.js"></script>
 </body>
 </html>

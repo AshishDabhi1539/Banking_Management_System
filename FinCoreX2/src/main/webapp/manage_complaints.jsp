@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Accounts - FinCoreX</title>
+    <title>Manage Complaints - FinCoreX</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">
@@ -16,72 +16,60 @@
         <%@ include file="includes/admin_sidebar.jsp" %>
         <main class="flex-grow-1 p-4">
             <div class="container-fluid">
-                <h3 class="mb-4 text-primary"><i class="fas fa-wallet me-2"></i>Manage Accounts</h3>
+                <h3 class="mb-4 text-primary"><i class="fas fa-exclamation-circle me-2"></i>Manage Complaints</h3>
                 <c:if test="${param.updated == '1'}">
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <i class="fas fa-check-circle me-2"></i>Account updated successfully.
+                        <i class="fas fa-check-circle me-2"></i>Complaint status updated successfully.
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 </c:if>
-                <div class="card shadow-sm">
+                <div class="card shadow-sm mb-4">
                     <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Update Account Status</h5>
+                        <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Update Complaint Status</h5>
                     </div>
                     <div class="card-body">
-                        <form class="row g-3" method="post" action="${pageContext.request.contextPath}/admin/account/update-status">
-                            <div class="col-md-4">
-                                <label class="form-label">Account ID</label>
-                                <input class="form-control" name="accountId" placeholder="Enter Account ID" required pattern="^[0-9]+$" title="Numbers only">
+                        <form class="row g-3" method="post" action="${pageContext.request.contextPath}/complaint/update-status">
+                            <div class="col-md-3">
+                                <label class="form-label">Complaint ID</label>
+                                <input class="form-control" name="complaintId" placeholder="Enter Complaint ID" required pattern="^[0-9]+$" title="Numbers only">
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label class="form-label">Status</label>
                                 <select class="form-select" name="status">
-                                    <option value="ACTIVE">Active</option>
-                                    <option value="INACTIVE">Inactive</option>
-                                    <option value="FROZEN">Frozen</option>
+                                    <option value="OPEN">Open</option>
+                                    <option value="IN_PROGRESS">In Progress</option>
+                                    <option value="RESOLVED">Resolved</option>
                                 </select>
                             </div>
-                            <div class="col-md-4 d-flex align-items-end">
+                            <div class="col-md-2 d-flex align-items-end">
                                 <button class="btn btn-success w-100" type="submit"><i class="fas fa-check me-2"></i>Update</button>
                             </div>
                         </form>
                     </div>
                 </div>
-                <div class="card shadow-sm mt-4">
+                <div class="card shadow-sm">
                     <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0"><i class="fas fa-list me-2"></i>Account List</h5>
+                        <h5 class="mb-0"><i class="fas fa-list me-2"></i>Complaint List</h5>
                     </div>
                     <div class="card-body">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th scope="col">Account ID</th>
+                                    <th scope="col">Complaint ID</th>
                                     <th scope="col">Customer ID</th>
-                                    <th scope="col">Account Type</th>
-                                    <th scope="col">Balance</th>
+                                    <th scope="col">Subject</th>
                                     <th scope="col">Status</th>
+                                    <th scope="col">Date</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach var="account" items="${accounts}">
+                                <c:forEach var="complaint" items="${complaints}">
                                     <tr>
-                                        <td>${account.accountId}</td>
-                                        <td>${account.customerId}</td>
-                                        <td>${account.accountType}</td>
-                                        <td>${account.balance}</td>
-                                        <td>
-                                            <c:choose>
-                                                <c:when test="${account.status == 'ACTIVE'}">
-                                                    <span class="badge text-bg-success">Active</span>
-                                                </c:when>
-                                                <c:when test="${account.status == 'INACTIVE'}">
-                                                    <span class="badge text-bg-warning">Inactive</span>
-                                                </c:when>
-                                                <c:when test="${account.status == 'FROZEN'}">
-                                                    <span class="badge text-bg-danger">Frozen</span>
-                                                </c:when>
-                                            </c:choose>
-                                        </td>
+                                        <td>${complaint.complaintId}</td>
+                                        <td>${complaint.customerId}</td>
+                                        <td>${complaint.subject}</td>
+                                        <td>${complaint.status}</td>
+                                        <td>${complaint.createdAt}</td>
                                     </tr>
                                 </c:forEach>
                             </tbody>

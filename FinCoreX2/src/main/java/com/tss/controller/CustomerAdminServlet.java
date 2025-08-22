@@ -16,14 +16,17 @@ import com.tss.util.Constants;
 
 @WebServlet(urlPatterns = { "/admin/customer/create", "/admin/customer/update", "/admin/customer/delete" })
 public class CustomerAdminServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private final CustomerService customerService = new CustomerService();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getServletPath();
         User admin = (User) req.getSession().getAttribute(Constants.SESSION_USER);
-        if (admin == null) { resp.sendRedirect(req.getContextPath() + "/login.jsp"); return; }
+        if (admin == null) { 
+            resp.sendRedirect(req.getContextPath() + "/login.jsp"); 
+            return; 
+        }
         try {
             switch (path) {
                 case "/admin/customer/create":
@@ -35,7 +38,7 @@ public class CustomerAdminServlet extends HttpServlet {
                     c.setAddress(req.getParameter("address"));
                     c.setAadharNo(req.getParameter("aadhar"));
                     c.setPanNo(req.getParameter("pan"));
-                    customerService.create(admin.getUserId(), c);
+                    customerService.create(c); // No accountNumber needed here
                     resp.sendRedirect(req.getContextPath() + "/admin/customers?created=1");
                     break;
                 case "/admin/customer/update":
@@ -63,4 +66,3 @@ public class CustomerAdminServlet extends HttpServlet {
         }
     }
 }
-

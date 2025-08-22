@@ -16,13 +16,13 @@
         <main class="flex-grow-1 p-4">
             <div class="container-fluid">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h3 class="text-primary"><i class="fas fa-home me-2"></i>Admin Dashboard</h3>
+                    <h3 class="mb-0 text-primary"><i class="fas fa-home me-2"></i>Admin Dashboard</h3>
                     <a class="btn btn-outline-danger" href="${pageContext.request.contextPath}/logout"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
                 </div>
                 <div class="row g-3">
                     <div class="col-md-3">
                         <div class="card text-bg-primary shadow-sm">
-                            <div class="card-body">
+                            <div class="card-body text-center">
                                 <h6 class="card-title"><i class="fas fa-users me-2"></i>Customers</h6>
                                 <h3 class="card-text">${summary.customers}</h3>
                             </div>
@@ -30,7 +30,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="card text-bg-success shadow-sm">
-                            <div class="card-body">
+                            <div class="card-body text-center">
                                 <h6 class="card-title"><i class="fas fa-wallet me-2"></i>Accounts</h6>
                                 <h3 class="card-text">${summary.accounts}</h3>
                             </div>
@@ -38,7 +38,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="card text-bg-warning shadow-sm">
-                            <div class="card-body">
+                            <div class="card-body text-center">
                                 <h6 class="card-title"><i class="fas fa-exchange-alt me-2"></i>Transactions</h6>
                                 <h3 class="card-text">${summary.transactions}</h3>
                             </div>
@@ -46,7 +46,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="card text-bg-danger shadow-sm">
-                            <div class="card-body">
+                            <div class="card-body text-center">
                                 <h6 class="card-title"><i class="fas fa-hand-holding-usd me-2"></i>Loans</h6>
                                 <h3 class="card-text">${summary.loans}</h3>
                             </div>

@@ -3,6 +3,7 @@ package com.tss.service;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import com.tss.dao.AccountDAO;
@@ -13,21 +14,34 @@ import com.tss.exception.AccountNotFoundException;
 import com.tss.exception.InsufficientBalanceException;
 import com.tss.model.Account;
 import com.tss.model.ActivityLog;
+import com.tss.model.Customer;
 import com.tss.model.Transaction;
 
 public class AccountService {
+    private final CustomerService customerService = new CustomerService();
     private final AccountDAO accountDAO = new AccountDAO();
     private final TransactionDAO transactionDAO = new TransactionDAO();
     private final ActivityLogDAO logDAO = new ActivityLogDAO();
 
-    public int openAccount(int customerId, String accountNumber, String accountType) throws SQLException {
+    public int openAccount(int customerId, String accountType) throws SQLException { // Removed accountNumber parameter
         Account a = new Account();
         a.setCustomerId(customerId);
-        a.setAccountNumber(accountNumber);
         a.setAccountType(accountType);
         a.setBalance(BigDecimal.ZERO);
         a.setStatus("ACTIVE");
-        return accountDAO.create(a);
+        // Generate unique account number (e.g., customerId + timestamp)
+        String generatedAccountNumber = generateAccountNumber(customerId);
+        a.setAccountNumber(generatedAccountNumber);
+        int accountId = accountDAO.create(a);
+        if (accountId == 0) throw new SQLException("Failed to create account");
+        log(customerId, "Opened account " + generatedAccountNumber);
+        return accountId;
+    }
+
+    private String generateAccountNumber(int customerId) {
+        // Example: customerId + current timestamp (YYYYMMDDHHMMSS)
+        String timestamp = String.format("%1$tY%1$tm%1$td%1$tH%1$tM%1$tS", new Date());
+        return customerId + "-" + timestamp;
     }
 
     public void deposit(int userId, int accountId, BigDecimal amount) throws SQLException {
@@ -132,14 +146,20 @@ public class AccountService {
         }
     }
 
-    public Account getAccount(int accountId) throws SQLException {
+    public Account getAccount(int accountId, int userId) throws SQLException {
         Account acc = accountDAO.findById(accountId);
         if (acc == null) throw new AccountNotFoundException("Account not found");
+        Customer customer = customerService.getByUserId(userId);
+        if (customer == null || customer.getCustomerId() != acc.getCustomerId()) {
+            throw new IllegalArgumentException("Access denied: Account does not belong to you");
+        }
         return acc;
     }
 
     public List<Account> getAccountsByCustomer(int customerId) throws SQLException {
-        return accountDAO.findByCustomerId(customerId);
+        List<Account> accounts = accountDAO.findByCustomerId(customerId);
+        System.out.println("AccountService: Fetched " + accounts.size() + " accounts for customerId: " + customerId);
+        return accounts;
     }
 
     private void log(int userId, String action) {
@@ -152,4 +172,3 @@ public class AccountService {
         }
     }
 }
-

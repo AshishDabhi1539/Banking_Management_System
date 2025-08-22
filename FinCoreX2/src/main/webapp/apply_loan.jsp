@@ -28,14 +28,14 @@
                         <h5 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Loan Application</h5>
                     </div>
                     <div class="card-body">
-                        <form class="row g-3" method="post" action="${pageContext.request.contextPath}/loan/apply">
+                        <form class="row g-3" method="post" action="${pageContext.request.contextPath}/customer/apply_loan">
                             <div class="col-md-2">
                                 <label class="form-label">Customer ID</label>
-                                <input class="form-control" name="customerId" placeholder="Enter Customer ID" required pattern="^[0-9]+$" title="Numbers only">
+                                <input class="form-control" name="customerId" value="${customerId}" readonly>
                             </div>
                             <div class="col-md-2">
                                 <label class="form-label">Loan Type</label>
-                                <select class="form-select" name="loanType">
+                                <select class="form-select" name="loanType" required>
                                     <option value="PERSONAL">Personal</option>
                                     <option value="HOME">Home</option>
                                     <option value="CAR">Car</option>
