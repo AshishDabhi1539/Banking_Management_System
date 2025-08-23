@@ -4,77 +4,106 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class Loan {
-    private Integer loanId;
-    private Integer customerId;
-    private String loanType; // PERSONAL, HOME, CAR, EDUCATION
-    private BigDecimal amount;
-    private BigDecimal interestRate;
-    private Integer tenureMonths;
-    private String status; // PENDING, APPROVED, REJECTED, CLOSED
-    private Timestamp appliedDate;
+	private int loanId;
+	private int customerId;
+	private Integer accountId; // nullable
+	private String loanType;
+	private BigDecimal amount;
+	private BigDecimal interestRate;
+	private int tenureMonths;
+	private String status;
+	private Timestamp appliedDate;
+	private String accountNumber; // from accounts table
 
-    public Integer getLoanId() {
-        return loanId;
-    }
+	// ✅ New transient field
+	private BigDecimal outstandingAmount;
 
-    public void setLoanId(Integer loanId) {
-        this.loanId = loanId;
-    }
+	// Getters & setters
+	public int getLoanId() {
+		return loanId;
+	}
 
-    public Integer getCustomerId() {
-        return customerId;
-    }
+	public void setLoanId(int loanId) {
+		this.loanId = loanId;
+	}
 
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
-    }
+	public int getCustomerId() {
+		return customerId;
+	}
 
-    public String getLoanType() {
-        return loanType;
-    }
+	public void setCustomerId(int customerId) {
+		this.customerId = customerId;
+	}
 
-    public void setLoanType(String loanType) {
-        this.loanType = loanType;
-    }
+	public Integer getAccountId() {
+		return accountId;
+	}
 
-    public BigDecimal getAmount() {
-        return amount;
-    }
+	public void setAccountId(Integer accountId) {
+		this.accountId = accountId;
+	}
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
+	public String getLoanType() {
+		return loanType;
+	}
 
-    public BigDecimal getInterestRate() {
-        return interestRate;
-    }
+	public void setLoanType(String loanType) {
+		this.loanType = loanType;
+	}
 
-    public void setInterestRate(BigDecimal interestRate) {
-        this.interestRate = interestRate;
-    }
+	public BigDecimal getAmount() {
+		return amount;
+	}
 
-    public Integer getTenureMonths() {
-        return tenureMonths;
-    }
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
+	}
 
-    public void setTenureMonths(Integer tenureMonths) {
-        this.tenureMonths = tenureMonths;
-    }
+	public BigDecimal getInterestRate() {
+		return interestRate;
+	}
 
-    public String getStatus() {
-        return status;
-    }
+	public void setInterestRate(BigDecimal interestRate) {
+		this.interestRate = interestRate;
+	}
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+	public int getTenureMonths() {
+		return tenureMonths;
+	}
 
-    public Timestamp getAppliedDate() {
-        return appliedDate;
-    }
+	public void setTenureMonths(int tenureMonths) {
+		this.tenureMonths = tenureMonths;
+	}
 
-    public void setAppliedDate(Timestamp appliedDate) {
-        this.appliedDate = appliedDate;
-    }
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Timestamp getAppliedDate() {
+		return appliedDate;
+	}
+
+	public void setAppliedDate(Timestamp appliedDate) {
+		this.appliedDate = appliedDate;
+	}
+
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
+	public BigDecimal getOutstandingAmount() {
+		return outstandingAmount;
+	}
+
+	public void setOutstandingAmount(BigDecimal outstandingAmount) {
+		this.outstandingAmount = outstandingAmount;
+	}
 }
-
