@@ -48,6 +48,12 @@ public class LoanService {
         log(userId, "Closed loan #" + loanId);
     }
 
+    public void updateStatus(int userId, int loanId, String status) throws SQLException {
+        ensureLoanExists(loanId);
+        loanDAO.updateStatus(loanId, status);
+        log(userId, "Updated status of loan #" + loanId + " to " + status);
+    }
+
     public void repay(int userId, int loanId, BigDecimal amount) throws SQLException {
         ensureLoanExists(loanId);
         LoanRepayment r = new LoanRepayment();
@@ -87,4 +93,3 @@ public class LoanService {
         }
     }
 }
-

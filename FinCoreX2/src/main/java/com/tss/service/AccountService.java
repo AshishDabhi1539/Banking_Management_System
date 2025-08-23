@@ -162,7 +162,7 @@ public class AccountService {
         return accounts;
     }
 
-    private void log(int userId, String action) {
+    public void log(int userId, String action) {
         try {
             ActivityLog l = new ActivityLog();
             l.setUserId(userId);

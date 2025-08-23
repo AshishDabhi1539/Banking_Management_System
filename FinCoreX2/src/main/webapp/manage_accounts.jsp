@@ -37,8 +37,8 @@
                                 <label class="form-label">Status</label>
                                 <select class="form-select" name="status">
                                     <option value="ACTIVE">Active</option>
-                                    <option value="INACTIVE">Inactive</option>
-                                    <option value="FROZEN">Frozen</option>
+                                    <option value="CLOSED">Closed</option>
+                                    <option value="BLOCKED">Blocked</option>
                                 </select>
                             </div>
                             <div class="col-md-4 d-flex align-items-end">
@@ -74,11 +74,11 @@
                                                 <c:when test="${account.status == 'ACTIVE'}">
                                                     <span class="badge text-bg-success">Active</span>
                                                 </c:when>
-                                                <c:when test="${account.status == 'INACTIVE'}">
-                                                    <span class="badge text-bg-warning">Inactive</span>
+                                                <c:when test="${account.status == 'CLOSED'}">
+                                                    <span class="badge text-bg-secondary">Closed</span>
                                                 </c:when>
-                                                <c:when test="${account.status == 'FROZEN'}">
-                                                    <span class="badge text-bg-danger">Frozen</span>
+                                                <c:when test="${account.status == 'BLOCKED'}">
+                                                    <span class="badge text-bg-danger">Blocked</span>
                                                 </c:when>
                                             </c:choose>
                                         </td>
