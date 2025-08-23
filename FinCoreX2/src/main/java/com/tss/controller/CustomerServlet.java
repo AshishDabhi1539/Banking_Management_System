@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.tss.exception.InsufficientBalanceException;
 import com.tss.model.Customer;
 import com.tss.model.User;
 import com.tss.service.AccountService;
@@ -19,7 +20,6 @@ import com.tss.service.ComplaintService;
 import com.tss.service.CustomerService;
 import com.tss.service.LoanService;
 import com.tss.util.Constants;
-import com.tss.exception.InsufficientBalanceException;
 
 @WebServlet(urlPatterns = {
     "/customer/dashboard", "/customer/deposit", "/customer/withdraw", "/customer/transfer", 
@@ -142,7 +142,7 @@ public class CustomerServlet extends HttpServlet {
                         req.getRequestDispatcher("/complaints.jsp").forward(req, resp);
                         return;
                     }
-                    complaintService.createComplaint(userId, customerId, subject, message);
+                    complaintService.createComplaint(userId, subject, message);
                     resp.sendRedirect(req.getContextPath() + "/customer/complaints?created=1");
                     break;
                 case "/customer/apply_loan":
