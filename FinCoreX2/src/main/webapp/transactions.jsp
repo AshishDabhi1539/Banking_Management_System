@@ -5,40 +5,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Transactions - FinCoreX</title>
+    <title>Transactions - FinCoreX</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <%@ include file="includes/header.jsp" %>
-    <div class="d-flex">
-        <%@ include file="includes/admin_sidebar.jsp" %>
+    <div class="d-flex flex-grow-1">
+        <c:choose>
+            <c:when test="${sessionScope.currentUser.role eq 'ADMIN'}">
+                <%@ include file="includes/admin_sidebar.jsp" %>
+            </c:when>
+            <c:otherwise>
+                <%@ include file="includes/sidebar.jsp" %>
+            </c:otherwise>
+        </c:choose>
+
         <main class="flex-grow-1 p-4">
             <div class="container-fluid">
-                <h3 class="mb-4 text-primary"><i class="fas fa-exchange-alt me-2"></i>View Transactions</h3>
+                <h3 class="mb-4 text-primary"><i class="fas fa-list me-2"></i>Transactions</h3>
                 <div class="card shadow-sm">
                     <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0"><i class="fas fa-list me-2"></i>Transaction History</h5>
+                        <h5 class="mb-0"><i class="fas fa-history me-2"></i>Transaction History</h5>
                     </div>
                     <div class="card-body">
-                        <form class="row g-3 mb-4" method="post" action="${pageContext.request.contextPath}/admin/transactions">
+                        <form class="row g-3 mb-4" method="get" action="${pageContext.request.contextPath}/transactions">
                             <div class="col-md-4">
                                 <label class="form-label">Account ID</label>
-                                <input class="form-control" name="accountId" placeholder="Enter Account ID (Optional)" pattern="^[0-9]+$" title="Numbers only">
+                                <input class="form-control" name="accountId"
+                                       placeholder="Enter Account ID (optional)"
+                                       pattern="^[0-9]+$" title="Numbers only">
                             </div>
                             <div class="col-md-4 d-flex align-items-end">
-                                <button class="btn btn-primary w-100" type="submit"><i class="fas fa-search me-2"></i>Filter</button>
+                                <button class="btn btn-primary w-100" type="submit">
+                                    <i class="fas fa-search me-2"></i>Filter
+                                </button>
                             </div>
                         </form>
+
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th scope="col">Transaction ID</th>
-                                    <th scope="col">Account ID</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Type</th>
-                                    <th scope="col">Amount</th>
+                                    <th>Transaction ID</th>
+                                    <th>Account ID</th>
+                                    <th>Date</th>
+                                    <th>Type</th>
+                                    <th>Amount</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -55,12 +68,21 @@
                         </table>
                     </div>
                 </div>
-                <a class="btn btn-outline-secondary mt-4" href="${pageContext.request.contextPath}/admin/dashboard"><i class="fas fa-arrow-left me-2"></i>Back to Dashboard</a>
+                <c:choose>
+                    <c:when test="${sessionScope.currentUser.role eq 'ADMIN'}">
+                        <a class="btn btn-outline-secondary mt-4" href="${pageContext.request.contextPath}/admin/dashboard">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                        </a>
+                    </c:when>
+                    <c:otherwise>
+                        <a class="btn btn-outline-secondary mt-4" href="${pageContext.request.contextPath}/customer/dashboard">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                        </a>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </main>
     </div>
     <%@ include file="includes/footer.jsp" %>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/scripts.js"></script>
 </body>
 </html>
