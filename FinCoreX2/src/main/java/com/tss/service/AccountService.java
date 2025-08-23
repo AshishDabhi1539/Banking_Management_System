@@ -41,7 +41,7 @@ public class AccountService {
     private String generateAccountNumber(int customerId) {
         // Example: customerId + current timestamp (YYYYMMDDHHMMSS)
         String timestamp = String.format("%1$tY%1$tm%1$td%1$tH%1$tM%1$tS", new Date());
-        return customerId + "-" + timestamp;
+        return timestamp;
     }
 
     public void deposit(int userId, int accountId, BigDecimal amount) throws SQLException {
