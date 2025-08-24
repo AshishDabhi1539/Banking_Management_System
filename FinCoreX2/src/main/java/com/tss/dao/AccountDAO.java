@@ -126,7 +126,11 @@ public class AccountDAO {
 	}
 
 	public List<Account> findByCustomerId(int customerId) throws SQLException {
-		String sql = "SELECT account_id, account_number, account_type, balance, status FROM accounts WHERE customer_id = ? AND status = 'ACTIVE' ORDER BY account_id DESC";
+		String sql = "SELECT a.account_id, a.account_number, a.account_type, " + "a.balance, a.status, a.created_at, "
+				+ "c.full_name AS customer_name " + "FROM accounts a "
+				+ "JOIN customers c ON a.customer_id = c.customer_id " + "WHERE a.customer_id = ? "
+				+ "ORDER BY a.account_id DESC";
+
 		List<Account> list = new ArrayList<>();
 		try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 			ps.setInt(1, customerId);
@@ -138,6 +142,8 @@ public class AccountDAO {
 					a.setAccountType(rs.getString("account_type"));
 					a.setBalance(rs.getBigDecimal("balance"));
 					a.setStatus(rs.getString("status"));
+					a.setCreatedAt(rs.getTimestamp("created_at"));
+					a.setCustomerName(rs.getString("customer_name"));
 					list.add(a);
 				}
 			}
@@ -146,13 +152,25 @@ public class AccountDAO {
 	}
 
 	public List<Account> findAll() throws SQLException {
-		String sql = "SELECT * FROM accounts ORDER BY account_id DESC";
+		String sql = "SELECT a.account_id, a.customer_id, a.account_number, a.account_type, "
+				+ "a.balance, a.status, a.created_at, c.full_name AS customer_name " + "FROM accounts a "
+				+ "JOIN customers c ON a.customer_id = c.customer_id " + "ORDER BY a.account_id DESC";
+
 		List<Account> list = new ArrayList<>();
 		try (Connection conn = DBConnection.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql);
 				ResultSet rs = ps.executeQuery()) {
 			while (rs.next()) {
-				list.add(mapRow(rs));
+				Account a = new Account();
+				a.setAccountId(rs.getInt("account_id"));
+				a.setCustomerId(rs.getInt("customer_id"));
+				a.setAccountNumber(rs.getString("account_number"));
+				a.setAccountType(rs.getString("account_type"));
+				a.setBalance(rs.getBigDecimal("balance"));
+				a.setStatus(rs.getString("status"));
+				a.setCreatedAt(rs.getTimestamp("created_at"));
+				a.setCustomerName(rs.getString("customer_name")); // ✅ FIX
+				list.add(a);
 			}
 		}
 		return list;
@@ -167,6 +185,11 @@ public class AccountDAO {
 		a.setBalance(rs.getBigDecimal("balance"));
 		a.setStatus(rs.getString("status"));
 		a.setCreatedAt(rs.getTimestamp("created_at"));
+		try {
+			a.setCustomerName(rs.getString("customer_name")); // won’t exist in plain queries
+		} catch (SQLException ignored) {
+		}
 		return a;
 	}
+
 }
