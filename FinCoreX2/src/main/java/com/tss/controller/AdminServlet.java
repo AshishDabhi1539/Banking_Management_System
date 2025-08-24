@@ -45,7 +45,7 @@ public class AdminServlet extends HttpServlet {
                     break;
                 case "/admin/complaints":
                     req.setAttribute("complaints", adminService.getAllComplaints());
-                    req.getRequestDispatcher("/complaints.jsp").forward(req, resp);
+                    req.getRequestDispatcher("/manage_complaints.jsp").forward(req, resp); // Updated to manage_complaints.jsp
                     break;
                 case "/admin/logs":
                     req.setAttribute("logs", adminService.getRecentActivityLogs(200));
@@ -59,4 +59,3 @@ public class AdminServlet extends HttpServlet {
         }
     }
 }
-
