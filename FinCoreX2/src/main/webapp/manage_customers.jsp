@@ -219,16 +219,6 @@
 									</c:forEach>
 								</tbody>
 							</table>
-
-							<!-- Pagination -->
-							<nav>
-								<ul class="pagination">
-									<li class="page-item"><a class="page-link"
-										href="?page=${param.page > 1 ? param.page - 1 : 1}">Previous</a></li>
-									<li class="page-item"><a class="page-link"
-										href="?page=${param.page + 1}">Next</a></li>
-								</ul>
-							</nav>
 						</div>
 					</div>
 				</div>

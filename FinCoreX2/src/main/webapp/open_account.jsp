@@ -23,34 +23,35 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 </c:if>
+                <c:if test="${not empty error}">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="fas fa-exclamation-triangle me-2"></i>${error}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </c:if>
                 <div class="card shadow-sm">
                     <div class="card-header bg-primary text-white">
                         <h5 class="mb-0"><i class="fas fa-plus-circle me-2"></i>New Account Details</h5>
                     </div>
                     <div class="card-body">
-                        <form class="row g-3" method="post" action="${pageContext.request.contextPath}/customer/open-account">
-                            <div class="col-md-3">
-                                <label class="form-label">Customer ID</label>
-                                <input class="form-control" name="customerId" placeholder="Enter Customer ID" required pattern="^[0-9]+$" title="Numbers only">
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Account Number</label>
-                                <input class="form-control" name="accountNumber" placeholder="Enter Account Number" required minlength="6" maxlength="20">
-                            </div>
-                            <div class="col-md-3">
+                        <form class="row g-3" method="post" action="${pageContext.request.contextPath}/customer/open_account">
+                            <div class="col-md-6">
                                 <label class="form-label">Account Type</label>
                                 <select class="form-select" name="accountType">
+                                <option value="" disabled
+										<c:if test="${empty selId}">selected</c:if>>-- Select
+										Account Type --</option>
                                     <option value="SAVINGS">Savings</option>
                                     <option value="CURRENT">Current</option>
                                 </select>
                             </div>
-                            <div class="col-md-3 d-flex align-items-end">
+                            <div class="col-md-6 d-flex align-items-end">
                                 <button class="btn btn-primary w-100" type="submit"><i class="fas fa-plus me-2"></i>Open Account</button>
                             </div>
                         </form>
                     </div>
                 </div>
-                <a class="btn btn-outline-secondary mt-4" href="${pageContext.request.contextPath}/accounts.jsp"><i class="fas fa-arrow-left me-2"></i>Back to Accounts</a>
+                <a class="btn btn-outline-secondary mt-4" href="${pageContext.request.contextPath}/accounts"><i class="fas fa-arrow-left me-2"></i>Back to Accounts</a>
             </div>
         </main>
     </div>

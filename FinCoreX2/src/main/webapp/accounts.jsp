@@ -138,6 +138,9 @@
 									<div class="col-md-4">
 										<label class="form-label">Account Type</label> <select
 											class="form-select" name="accountType">
+											<option value="" disabled
+										<c:if test="${empty selId}">selected</c:if>>-- Select
+										Account Type --</option>
 											<option value="SAVINGS">Savings</option>
 											<option value="CURRENT">Current</option>
 										</select>
