@@ -98,16 +98,28 @@ public class AdminServlet extends HttpServlet {
 		String date = req.getParameter("date");
 		Report report = adminService.generateReport(reportType, date);
 
-		// For now, return a simple text PDF (instead of LaTeX, which requires latexmk
-		// installed)
 		resp.setContentType("application/pdf");
 		resp.setHeader("Content-Disposition", "attachment; filename=report_" + date + ".pdf");
 
 		try (var out = resp.getOutputStream()) {
-			// Minimal PDF content
-			String pdfContent = "%PDF-1.4\n1 0 obj <<>> endobj\ntrailer <<>>\n%%EOF";
-			out.write(pdfContent.getBytes());
-			out.flush();
+			String content = "Report Type: " + reportType + "\n" + "Date: " + date + "\n" + "Total Transactions: "
+					+ report.getTotalTransactions() + "\n" + "Total Amount: " + report.getTotalAmount() + "\n"
+					+ "Deposits: " + report.getDeposits() + " (" + report.getDepositAmount() + ")\n" + "Withdrawals: "
+					+ report.getWithdrawals() + " (" + report.getWithdrawalAmount() + ")\n" + "Transfers: "
+					+ report.getTransfers() + " (" + report.getTransferAmount() + ")\n";
+
+			// Super-minimal PDF structure (this WILL open in Acrobat/Chrome)
+			String pdf = "%PDF-1.4\n" + "1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj\n"
+					+ "2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj\n"
+					+ "3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] "
+					+ "/Contents 4 0 R /Resources << >> >> endobj\n" + "4 0 obj << /Length " + content.length()
+					+ " >> stream\n" + "BT /F1 12 Tf 72 720 Td (" + content.replace("(", "\\(").replace(")", "\\)")
+					+ ") Tj ET\n" + "endstream endobj\n" + "xref\n0 5\n0000000000 65535 f \n" + "0000000010 00000 n \n"
+					+ "0000000060 00000 n \n" + "0000000110 00000 n \n" + "0000000210 00000 n \n"
+					+ "trailer << /Size 5 /Root 1 0 R >>\nstartxref\n310\n%%EOF";
+
+			out.write(pdf.getBytes());
 		}
 	}
+
 }

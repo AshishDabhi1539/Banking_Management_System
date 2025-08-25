@@ -129,7 +129,7 @@
 						<div id="openAccountForm" class="accordion-collapse collapse">
 							<div class="accordion-body">
 								<form class="row g-3" method="post"
-									action="${pageContext.request.contextPath}/customer/open-account">
+									action="${pageContext.request.contextPath}/customer/open_account">
 									<div class="col-md-4">
 										<label class="form-label">Customer ID</label> <input
 											type="text" class="form-control" name="customerId"
