@@ -3,14 +3,19 @@ package com.tss.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import com.tss.dao.ActivityLogDAO;
 import com.tss.dao.CustomerDAO;
+import com.tss.dao.UserDAO;
 import com.tss.model.ActivityLog;
 import com.tss.model.Customer;
 
 public class CustomerService {
 	private final CustomerDAO customerDAO = new CustomerDAO();
 	private final ActivityLogDAO logDAO = new ActivityLogDAO();
+	@SuppressWarnings("unused")
+	private final UserDAO userDAO = new UserDAO(); // Add UserDAO
 
 	public int create(Customer c) throws SQLException { // Removed userId parameter
 		int id = customerDAO.create(c);
@@ -41,6 +46,25 @@ public class CustomerService {
 
 	public List<Customer> getAll() throws SQLException {
 		return customerDAO.findAll();
+	}
+
+	public boolean changePassword(int userId, String oldPassword, String newPassword) throws SQLException {
+		UserDAO userDAO = new UserDAO(); // Instantiate UserDAO
+		com.tss.model.User user = userDAO.findById(userId);
+		if (user == null) {
+			return false;
+		}
+
+		// Verify old password
+		if (!BCrypt.checkpw(oldPassword, user.getPassword())) {
+			return false;
+		}
+
+		// Hash the new password
+		String hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+		userDAO.updatePassword(userId, hashedNewPassword);
+		log(userId, "Changed password for user #" + userId);
+		return true;
 	}
 
 	private void log(int userId, String action) {

@@ -129,7 +129,7 @@
 						<div id="openAccountForm" class="accordion-collapse collapse">
 							<div class="accordion-body">
 								<form class="row g-3" method="post"
-									action="${pageContext.request.contextPath}/customer/open-account">
+									action="${pageContext.request.contextPath}/customer/open_account">
 									<div class="col-md-4">
 										<label class="form-label">Customer ID</label> <input
 											type="text" class="form-control" name="customerId"
@@ -138,6 +138,9 @@
 									<div class="col-md-4">
 										<label class="form-label">Account Type</label> <select
 											class="form-select" name="accountType">
+											<option value="" disabled
+										<c:if test="${empty selId}">selected</c:if>>-- Select
+										Account Type --</option>
 											<option value="SAVINGS">Savings</option>
 											<option value="CURRENT">Current</option>
 										</select>

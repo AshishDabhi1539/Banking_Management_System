@@ -4,68 +4,76 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class Account {
-    private Integer accountId;
-    private Integer customerId;
-    private String accountNumber;
-    private String accountType; // SAVINGS or CURRENT
-    private BigDecimal balance;
-    private String status; // ACTIVE, CLOSED, BLOCKED
-    private Timestamp createdAt;
+	private Integer accountId;
+	private Integer customerId;
+	private String accountNumber;
+	private String accountType; // SAVINGS or CURRENT
+	private BigDecimal balance;
+	private String status; // ACTIVE, CLOSED, BLOCKED
+	private Timestamp createdAt;
+	private String customerName; // transient field from customers.full_name
 
-    public Integer getAccountId() {
-        return accountId;
-    }
+	public String getCustomerName() {
+		return customerName;
+	}
 
-    public void setAccountId(Integer accountId) {
-        this.accountId = accountId;
-    }
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
 
-    public Integer getCustomerId() {
-        return customerId;
-    }
+	public Integer getAccountId() {
+		return accountId;
+	}
 
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
-    }
+	public void setAccountId(Integer accountId) {
+		this.accountId = accountId;
+	}
 
-    public String getAccountNumber() {
-        return accountNumber;
-    }
+	public Integer getCustomerId() {
+		return customerId;
+	}
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
+	public void setCustomerId(Integer customerId) {
+		this.customerId = customerId;
+	}
 
-    public String getAccountType() {
-        return accountType;
-    }
+	public String getAccountNumber() {
+		return accountNumber;
+	}
 
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
-    }
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
 
-    public BigDecimal getBalance() {
-        return balance;
-    }
+	public String getAccountType() {
+		return accountType;
+	}
 
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
+	}
 
-    public String getStatus() {
-        return status;
-    }
+	public BigDecimal getBalance() {
+		return balance;
+	}
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance;
+	}
 
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
+	public String getStatus() {
+		return status;
+	}
 
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Timestamp getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
+	}
 }
-

@@ -17,9 +17,15 @@
         <main class="flex-grow-1 p-4">
             <div class="container-fluid">
                 <h3 class="mb-4 text-primary"><i class="fas fa-money-bill-alt me-2"></i>Withdraw</h3>
-                <c:if test="${param.withdrawn == '1'}">
+                <c:if test="${param.success == '1'}">
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <i class="fas fa-check-circle me-2"></i>Withdrawal successful.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </c:if>
+                <c:if test="${not empty error}">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="fas fa-exclamation-triangle me-2"></i>${error}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 </c:if>
@@ -30,8 +36,13 @@
                     <div class="card-body">
                         <form class="row g-3" method="post" action="${pageContext.request.contextPath}/customer/withdraw">
                             <div class="col-md-4">
-                                <label class="form-label">Account ID</label>
-                                <input class="form-control" name="accountId" placeholder="Enter Account ID" required pattern="^[0-9]+$" title="Numbers only">
+                                <label class="form-label">Select Account</label>
+                                <select class="form-select" name="accountId" required>
+                                    <option value="">-- Select Account --</option>
+                                    <c:forEach var="acc" items="${accounts}">
+                                        <option value="${acc.accountId}">${acc.accountNumber} (ID: ${acc.accountId})</option>
+                                    </c:forEach>
+                                </select>
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">Amount</label>
@@ -43,7 +54,7 @@
                         </form>
                     </div>
                 </div>
-                <a class="btn btn-outline-secondary mt-4" href="${pageContext.request.contextPath}/accounts.jsp"><i class="fas fa-arrow-left me-2"></i>Back to Accounts</a>
+                <a class="btn btn-outline-secondary mt-4" href="${pageContext.request.contextPath}/accounts"><i class="fas fa-arrow-left me-2"></i>Back to Accounts</a>
             </div>
         </main>
     </div>

@@ -23,11 +23,12 @@ import com.tss.service.LoanService;
 import com.tss.util.Constants;
 
 @WebServlet(urlPatterns = { "/customer/dashboard", "/customer/deposit", "/customer/withdraw", "/customer/transfer",
-		"/customer/open-account", "/customer/complaints", "/customer/loan_status", "/customer/apply_loan",
-		"/customer/repay_loan" })
+		"/customer/open_account", "/customer/complaints", "/customer/loan_status", "/customer/apply_loan",
+		"/customer/repay_loan", "/account-overview", "/customer/profile" }) // Added /customer/profile
 public class CustomerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final AccountService accountService = new AccountService();
+	@SuppressWarnings("unused")
 	private final AdminService adminService = new AdminService();
 	private final ComplaintService complaintService = new ComplaintService();
 	private final CustomerService customerService = new CustomerService();
@@ -53,18 +54,45 @@ public class CustomerServlet extends HttpServlet {
 
 			switch (path) {
 			case "/customer/dashboard":
-				try {
-					req.setAttribute("summary", adminService.getDashboardSummary());
-				} catch (SQLException e) {
-					req.setAttribute("error", "Failed to load dashboard summary.");
+				List<Account> accounts = accountService.getAccountsByCustomer(customerId);
+				req.setAttribute("accounts", accounts);
+				req.setAttribute("accountCount", accounts != null ? accounts.size() : 0);
+				BigDecimal totalBalance = BigDecimal.ZERO;
+				if (accounts != null) {
+					for (Account acc : accounts) {
+						totalBalance = totalBalance.add(acc.getBalance() != null ? acc.getBalance() : BigDecimal.ZERO);
+					}
 				}
+				req.setAttribute("totalBalance", totalBalance);
 				req.getRequestDispatcher("/customer_dashboard.jsp").forward(req, resp);
 				break;
 
+			case "/customer/deposit":
+				List<Account> depositAccounts = accountService.getAccountsByCustomer(customerId);
+				req.setAttribute("accounts", depositAccounts);
+				req.getRequestDispatcher("/deposit.jsp").forward(req, resp);
+				break;
+
+			case "/customer/withdraw":
+				List<Account> withdrawAccounts = accountService.getAccountsByCustomer(customerId);
+				req.setAttribute("accounts", withdrawAccounts);
+				req.getRequestDispatcher("/withdraw.jsp").forward(req, resp);
+				break;
+
+			case "/customer/transfer":
+				List<Account> transferAccounts = accountService.getAccountsByCustomer(customerId);
+				req.setAttribute("accounts", transferAccounts);
+				req.getRequestDispatcher("/transfer.jsp").forward(req, resp);
+				break;
+
+			case "/customer/open_account":
+				req.setAttribute("customerId", customerId);
+				req.getRequestDispatcher("/open_account.jsp").forward(req, resp);
+				break;
+
 			case "/customer/apply_loan":
-				// Load customer's accounts to show in the form
-				List<Account> accounts = accountService.getAccountsByCustomer(customerId);
-				req.setAttribute("accounts", accounts);
+				List<Account> loanAccounts = accountService.getAccountsByCustomer(customerId);
+				req.setAttribute("accounts", loanAccounts);
 				req.setAttribute("customerId", customerId);
 				req.getRequestDispatcher("/apply_loan.jsp").forward(req, resp);
 				break;
@@ -85,6 +113,17 @@ public class CustomerServlet extends HttpServlet {
 				req.getRequestDispatcher("/repay_loan.jsp").forward(req, resp);
 				break;
 
+			case "/account-overview":
+				List<Account> overviewAccounts = accountService.getAccountsByCustomer(customerId);
+				req.setAttribute("accounts", overviewAccounts);
+				req.getRequestDispatcher("/account-overview.jsp").forward(req, resp);
+				break;
+
+			case "/customer/profile":
+				req.setAttribute("customer", customer);
+				req.getRequestDispatcher("/profile.jsp").forward(req, resp);
+				break;
+
 			default:
 				resp.sendError(HttpServletResponse.SC_NOT_FOUND);
 			}
@@ -102,7 +141,7 @@ public class CustomerServlet extends HttpServlet {
 		}
 
 		try {
-			int userId = u.getUserId(); // Get userId from session
+			int userId = u.getUserId();
 			int customerId = getCustomerId(userId, req);
 
 			switch (req.getServletPath()) {
@@ -135,7 +174,7 @@ public class CustomerServlet extends HttpServlet {
 					req.getRequestDispatcher("/error.jsp").forward(req, resp);
 				}
 				break;
-			case "/customer/open-account":
+			case "/customer/open_account":
 				String type = req.getParameter("accountType");
 				accountService.openAccount(customerId, type);
 				resp.sendRedirect(req.getContextPath() + "/accounts?opened=1");
@@ -151,18 +190,16 @@ public class CustomerServlet extends HttpServlet {
 				complaintService.createComplaint(userId, subject, message);
 				resp.sendRedirect(req.getContextPath() + "/customer/complaints?created=1");
 				break;
-			case "/customer/apply_loan": {
-				// read inputs
+			case "/customer/apply_loan":
 				int accountId = Integer.parseInt(req.getParameter("accountId"));
 				String loanType = req.getParameter("loanType");
 				BigDecimal amount = new BigDecimal(req.getParameter("amount"));
 				BigDecimal interestRate = new BigDecimal(req.getParameter("interestRate"));
 				int tenureMonths = Integer.parseInt(req.getParameter("tenureMonths"));
 
-				// basic validation
 				if (amount.compareTo(BigDecimal.ZERO) <= 0) {
 					req.setAttribute("errors", java.util.List.of("Amount must be greater than 0"));
-					doGet(req, resp); // reload form with errors (accounts set in doGet)
+					doGet(req, resp);
 					return;
 				}
 				if (tenureMonths <= 0) {
@@ -174,12 +211,33 @@ public class CustomerServlet extends HttpServlet {
 				loanService.applyLoan(userId, customerId, accountId, loanType, amount, interestRate, tenureMonths);
 				resp.sendRedirect(req.getContextPath() + "/customer/apply_loan?applied=1");
 				break;
-			}
 			case "/customer/repay_loan":
 				int loanId = Integer.parseInt(req.getParameter("loanId"));
 				BigDecimal repayAmount = new BigDecimal(req.getParameter("amount"));
 				loanService.repay(userId, loanId, repayAmount);
 				resp.sendRedirect(req.getContextPath() + "/customer/repay_loan?repaid=1");
+				break;
+			case "/customer/profile":
+				String action = req.getParameter("action");
+				if ("changePassword".equals(action)) {
+					String oldPassword = req.getParameter("oldPassword");
+					String newPassword = req.getParameter("newPassword");
+					String confirmPassword = req.getParameter("confirmPassword");
+
+					if (!newPassword.equals(confirmPassword)) {
+						req.setAttribute("error", "New passwords do not match.");
+						req.setAttribute("customer", customerService.get(customerId));
+						req.getRequestDispatcher("/profile.jsp").forward(req, resp);
+						return;
+					}
+					if (customerService.changePassword(u.getUserId(), oldPassword, newPassword)) {
+						req.setAttribute("message", "Password updated successfully.");
+					} else {
+						req.setAttribute("error", "Old password is incorrect.");
+					}
+					req.setAttribute("customer", customerService.get(customerId));
+					req.getRequestDispatcher("/profile.jsp").forward(req, resp);
+				}
 				break;
 			default:
 				resp.sendError(HttpServletResponse.SC_NOT_FOUND);
